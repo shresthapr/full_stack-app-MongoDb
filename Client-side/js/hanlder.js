@@ -5,6 +5,16 @@
   const updateBtn = document.getElementById("update-todo-btn");
   const searchBtn = document.getElementById("search-btn");
   const showBtn = document.getElementById("show-todo-list");
+  document.querySelector("tbody").addEventListener("click", function (event) {
+    if (event.target.className === "delete-btn") {
+      remove(event.target.dataset.id);
+    }
+    // if (event.target.className === "edit-btn") {
+    //   editlist(event.target.data.Id);
+    // }
+  });
+
+  const EditBtn = document.getElementsByClassName("edit-btn");
 
   function init() {
     console.log("hello");
@@ -40,14 +50,14 @@
       return;
     }
     let addhtml = "";
-    data.map((item) => {
+    data.forEach(function ({ Id, Note, Entry, Status }) {
       addhtml += `<tr>
-      <td> ${item.Id}</td> 
-      <td> ${item.Note} </td>
-      <td> ${item.Entry} </td>
-      <td> ${item.Status}</td>
-      <td> <button class="delete-btn" data-id=${item.Id}>Delete</button> </td>
-      <td> <button class="edit-btn" data-id=${item.Id}>Edit</button> </p> </td>
+      <td> ${Id}</td> 
+      <td> ${Note} </td>
+      <td> ${Entry} </td>
+      <td> ${Status}</td>
+      <td> <button class="delete-btn" data-id=${Id}>Delete</button> </td>
+      <td> <button class="edit-btn" data-id=${Id}>Edit</button> </p> </td>
       </tr>`;
     });
     resultarea.innerHTML = addhtml;
@@ -65,4 +75,16 @@
         .then((resp) => loadHtmllist(resp));
     }
   };
+
+  function remove(Id) {
+    fetch('"http://localhost:4000/remove/' + Id, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          location.reload();
+        }
+      });
+  }
 })();

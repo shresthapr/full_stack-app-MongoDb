@@ -49,4 +49,36 @@ module.exports = class TodoDatabase {
       console.log(err.message);
     }
   }
+
+  // async remove(id) {
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //       const query = "DELETE  FROM Note WHERE Id=?";
+  //       connection.query(query, [id], (err, result) => {
+  //         if (err) reject(new Error(err.message));
+  //         resolve(result);
+  //       });
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   });
+  // }
+  async remove(id) {
+    try {
+      id = parseInt(id, 10);
+      const response = await new Promise((resolve, reject) => {
+        const query = "DELETE FROM Note WHERE Id = ?";
+
+        connection.query(query, [id], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result.affectedRows);
+        });
+      });
+
+      return response === 1 ? true : false;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
 };

@@ -22,6 +22,11 @@ app.get("/search/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await db.search(id));
 });
+
+app.delete("/remove/:id", (req, res) => {
+  const { id } = req.params;
+  res.json(db.remove(id)).then((data) => res.json({ success: data }));
+});
 server.listen(port, host, () =>
   console.log(`server ${host} Listening to ${port}`)
 );
