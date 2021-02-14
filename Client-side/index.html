@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do App</title>
+    <link rel="stylesheet" href="styles/styles.css" type="text/css" />
+  </head>
+  <body>
+    <main>
+      <h1>Welcome to your todo App</h1>
+      <label>New ToDo: </label>
+      <input type="text" id="todo-input" />
+      <button id="add-todo-btn">Add to list</button>
+      <div class="todo-view-area">
+        <button id="show-todo-list">Show my ToDo list</button>
+        <div hidden id="display-onload">
+          <h2>Things on your to do list</h2>
+          <input placeholder="search by notes" id="search-input" />
+          <button id="search-btn">Search</button>
+          <table>
+            <thead>
+              <th>Id</th>
+              <th>Note</th>
+              <th>Entry</th>
+              <th>Status</th>
+              <th>Delete</th>
+              <th>Edit</th>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <section hidden id="update-todo">
+        <label>New ToDo: </label>
+        <input type="text" id="update-todo-list" />
+        <button id="update-todo-btn">Update</button>
+      </section>
+    </main>
+    <script src="js/hanlder.js"></script>
+  </body>
+</html>

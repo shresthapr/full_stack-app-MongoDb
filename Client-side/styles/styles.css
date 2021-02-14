@@ -1,0 +1,61 @@
+main {
+  background-color: antiquewhite;
+  width: 50%;
+  margin: 50px auto;
+  text-align: center;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  padding: 1rem;
+}
+
+h1 {
+  padding: 1rem;
+}
+
+button {
+  color: white;
+  background-color: black;
+  padding: 0.7rem;
+  border-radius: 5px;
+  margin: 1rem;
+  font-size: 1rem;
+}
+
+label {
+  font-size: 1.3rem;
+  margin: 0 1rem;
+}
+
+input {
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.delete-btn {
+  background-color: red;
+  padding: 1px;
+}
+
+.edit-btn {
+  background-color: blue;
+  padding: 1px;
+}
+
+table {
+  margin: 50px auto;
+}
+
+th {
+  font-size: 1.3rem;
+}
+table,
+th,
+td {
+  border-collapse: collapse;
+}
+
+th,
+td,
+tr {
+  padding: 1px;
+}
