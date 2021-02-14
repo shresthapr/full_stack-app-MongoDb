@@ -25,7 +25,18 @@ app.get("/search/:id", async (req, res) => {
 
 app.delete("/remove/:id", (req, res) => {
   const { id } = req.params;
-  res.json(db.remove(id)).then((data) => res.json({ success: data }));
+  const result = db.remove(id);
+
+  result.then((data) => res.json({ success: data }));
+});
+
+app.patch("/update", (req, res) => {
+  console.log(req.body);
+  const { Id, Note } = req.body;
+  const result = db.updatelist(Id, Note);
+  result
+    .then((data) => res.json({ success: data }))
+    .catch((err) => console.log(err));
 });
 server.listen(port, host, () =>
   console.log(`server ${host} Listening to ${port}`)

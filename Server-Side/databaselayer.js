@@ -50,19 +50,6 @@ module.exports = class TodoDatabase {
     }
   }
 
-  // async remove(id) {
-  //   return new Promise((resolve, reject) => {
-  //     try {
-  //       const query = "DELETE  FROM Note WHERE Id=?";
-  //       connection.query(query, [id], (err, result) => {
-  //         if (err) reject(new Error(err.message));
-  //         resolve(result);
-  //       });
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   });
-  // }
   async remove(id) {
     try {
       id = parseInt(id, 10);
@@ -78,6 +65,24 @@ module.exports = class TodoDatabase {
       return response === 1 ? true : false;
     } catch (error) {
       console.log(error);
+      return false;
+    }
+  }
+
+  async updatelist(id, note) {
+    try {
+      id = parseInt(id, 10);
+      console.log(note);
+      const resp = await new Promise((resolve, reject) => {
+        const query = "UPDATE todolist SET Note =? WHERE Id=?;";
+        connection.query(query, [note, id], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result.affectedRows);
+        });
+      });
+      return resp === 1 ? true : fasle;
+    } catch (err) {
+      console.log(err);
       return false;
     }
   }

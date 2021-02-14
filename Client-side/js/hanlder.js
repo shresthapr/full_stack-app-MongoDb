@@ -9,12 +9,10 @@
     if (event.target.className === "delete-btn") {
       remove(event.target.dataset.id);
     }
-    // if (event.target.className === "edit-btn") {
-    //   editlist(event.target.data.Id);
-    // }
+    if (event.target.className === "edit-btn") {
+      editlist(event.target.dataset.id);
+    }
   });
-
-  const EditBtn = document.getElementsByClassName("edit-btn");
 
   function init() {
     console.log("hello");
@@ -87,4 +85,27 @@
         }
       });
   }
+
+  function editlist(id) {
+    const editsection = document.getElementById("update-todo");
+    editsection.hidden = false;
+    document.querySelector("#update-todo-btn").dataset.id = id;
+  }
+
+  updateBtn.onclick = function () {
+    const updateNoteValue = document.querySelector("#update-todo-list");
+    fetch("http://localhost:4000/update", {
+      method: "PATCH",
+      "Content-type": "application/json",
+      body: JSON.stringify(),
+      Id: updateNoteValue.dataset.id,
+      Note: updateNoteValue.value,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          location.reload();
+        }
+      });
+  };
 })();
