@@ -34,6 +34,27 @@ module.exports = class TodoDatabase {
       console.log(err.message);
     }
   }
+  async insertNew(note) {
+    try {
+      const query =
+        "INSERT INTO  tablelist (Note, Entry, Status) VALUES(?, ?);";
+      const entrydate = new Date();
+      const result = await new Promise((resolve, reject) => {
+        connection.query(query, [note, entrydate], (err, result) => {
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      });
+     return {
+      Id = result,
+      Note: note,
+      Entry: entrydate,
+      Status: result
+    }}
+     catch (err){
+      console.log(err)
+    }
+  }
 
   async search(id) {
     try {

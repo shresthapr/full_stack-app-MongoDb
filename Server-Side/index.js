@@ -18,6 +18,14 @@ app.get("/getall", async (req, res) => {
   res.json(await db.getAll());
 });
 
+app.post("/insert", async (req, res) => {
+  const { Note } = req.body;
+  const result = db.insertNew(Note);
+  result
+    .then((data) => res.json({ data: data }))
+    .catch((err) => console.log(err));
+});
+
 app.get("/search/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await db.search(id));
