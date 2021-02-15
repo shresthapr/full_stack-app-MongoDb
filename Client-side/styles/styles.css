@@ -54,8 +54,10 @@ td {
   border-collapse: collapse;
 }
 
+h2,
 th,
 td,
 tr {
   padding: 1px;
+  font-family: cursive, sans-serif;
 }

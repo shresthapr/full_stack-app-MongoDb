@@ -18,7 +18,7 @@ addBtn.onclick = function () {
   if (note.length === 0) {
     return;
   } else {
-    fetch("http://localhost:5000/insert", {
+    fetch("http://localhost:4000/insert", {
       headers: {
         "Content-type": "application/json",
       },
@@ -26,12 +26,35 @@ addBtn.onclick = function () {
       body: JSON.stringify({ Note: note }),
     })
       .then((res) => res.json())
-      .then((data) => insertNew(data));
+      .then((data) => insertNew(data["abcd"]));
   }
 };
 
 function insertNew(data) {
   console.log("hello from the other side", data);
+  const table = document.querySelector("tbody");
+  const istable = table.querySelector(".no-data");
+
+  let tableHtml = "<tr>";
+
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+      if (key === "dateAdded") {
+        data[key] = new Date(data[key]).toLocalString();
+      }
+      tableHtml += `<td>${data[key]}</td>`;
+      tableHtml += `<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
+      tableHtml += `<td><button class="edit-row-btn" data-id=${data.id}>Edit</td>`;
+
+      tableHtml += "</tr>";
+      if (isTableData) {
+        table.innerHTML = tableHtml;
+      } else {
+        const newRow = table.insertRow();
+        newRow.innerHTML = tableHtml;
+      }
+    }
+  }
   fetch("http://localhost:4000/getall")
     .then((res) => res.json())
     .then((abd) => loadHtmllist(abd));
@@ -40,7 +63,7 @@ function insertNew(data) {
 showBtn.onclick = function () {
   fetch("http://localhost:4000/getall")
     .then((res) => res.json())
-    .then((abd) => loadHtmllist(abd));
+    .then((data) => loadHtmllist(data["abcd"]));
 };
 
 function loadHtmllist(data) {
@@ -49,6 +72,8 @@ function loadHtmllist(data) {
 
   const resultarea = document.querySelector("tbody");
   if (data.length === 0) {
+    resultarea.innerHTML =
+      "<tr><td class='no-data' colspan='10'>Nothing on your list</td></tr>";
     return;
   }
   let addhtml = "";
@@ -74,12 +99,12 @@ searchBtn.onclick = function () {
   } else {
     fetch("http://localhost:4000/search/" + inputvalue)
       .then((res) => res.json())
-      .then((resp) => loadHtmllist(resp));
+      .then((data) => loadHtmllist(data));
   }
 };
 
 function remove(Id) {
-  fetch('"http://localhost:4000/remove/' + Id, {
+  fetch("http://localhost:4000/remove/" + Id, {
     method: "DELETE",
   })
     .then((res) => res.json())
@@ -93,17 +118,21 @@ function remove(Id) {
 function editlist(id) {
   const editsection = document.getElementById("update-todo");
   editsection.hidden = false;
-  document.querySelector("#update-todo-btn").dataset.id = id;
+  document.querySelector("#update-todo-list").dataset.id = id;
+  console.log("My Id", updateNoteValue.dataset.id);
 }
 
 updateBtn.onclick = function () {
   const updateNoteValue = document.querySelector("#update-todo-list");
   fetch("http://localhost:4000/update", {
+    headers: {
+      "Content-type": "application/json",
+    },
     method: "PATCH",
-    "Content-type": "application/json",
-    body: JSON.stringify(),
-    Id: updateNoteValue.dataset.id,
-    Note: updateNoteValue.value,
+    body: JSON.stringify({
+      id: updateNoteValue.dataset.id,
+      note: updateNoteValue.value,
+    }),
   })
     .then((res) => res.json())
     .then((data) => {

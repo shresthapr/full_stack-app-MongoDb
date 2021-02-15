@@ -36,23 +36,23 @@ module.exports = class TodoDatabase {
   }
   async insertNew(note) {
     try {
-      const query =
-        "INSERT INTO  tablelist (Note, Entry, Status) VALUES(?, ?);";
-      const entrydate = new Date();
-      const result = await new Promise((resolve, reject) => {
-        connection.query(query, [note, entrydate], (err, result) => {
+      const dateAdded = new Date();
+      const insertId = await new Promise((resolve, reject) => {
+        const query =
+          "INSERT INTO todolist (Note, Entry, Status) VALUES (?,?, ?);";
+        connection.query(query, [note, dateAdded, 0], (err, result) => {
           if (err) reject(new Error(err.message));
-          resolve(result);
+          resolve(result.insertId);
         });
       });
-     return {
-      Id = result,
-      Note: note,
-      Entry: entrydate,
-      Status: result
-    }}
-     catch (err){
-      console.log(err)
+      console.log(insertId);
+      return {
+        Id: insertId,
+        Note: note,
+        Entry: dateAdded,
+      };
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -75,8 +75,7 @@ module.exports = class TodoDatabase {
     try {
       id = parseInt(id, 10);
       const response = await new Promise((resolve, reject) => {
-        const query = "DELETE FROM Note WHERE Id = ?";
-
+        const query = "DELETE FROM todolist WHERE id = ?";
         connection.query(query, [id], (err, result) => {
           if (err) reject(new Error(err.message));
           resolve(result.affectedRows);
@@ -93,7 +92,6 @@ module.exports = class TodoDatabase {
   async updatelist(id, note) {
     try {
       id = parseInt(id, 10);
-      console.log(note);
       const resp = await new Promise((resolve, reject) => {
         const query = "UPDATE todolist SET Note =? WHERE Id=?;";
         connection.query(query, [note, id], (err, result) => {
