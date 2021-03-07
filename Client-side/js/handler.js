@@ -61,10 +61,11 @@ function insertNew(data) {
 showBtn.onclick = function view() {
   fetch("http://localhost:4000/getall")
     .then((res) => res.json())
-    .then((data) => loadHtmllist(data["abcd"]));
+    .then((data) => loadHtmllist(data.todos));
 };
 
 function loadHtmllist(data) {
+  console.log("This is the data received", data);
   const display = document.getElementById("display-onload");
   display.setAttribute("style", "display: block;");
 
@@ -75,14 +76,15 @@ function loadHtmllist(data) {
     return;
   }
   let addhtml = "";
-  data.forEach(function ({ Id, Note, Entry, Status }) {
+  data.forEach(function ({ _id, note, entry, status, type }) {
     addhtml += `<tr>
-      <td> ${Id}</td> 
-      <td> ${Note} </td>
-      <td> ${new Date(Entry).toLocaleString()} </td>
-      <td> ${Status}</td>
-      <td> <button class="delete-btn" data-id=${Id}>Delete</button> </td> 
-      <td> <button class="edit-btn" data-id=${Id}> Edit</button> </p> </td>
+      <td> ${_id}</td> 
+      <td> ${note} </td>
+      <td> ${new Date(entry).toLocaleString()} </td>
+      <td> ${status}</td>
+      <td> ${type}</td>
+      <td> <button class="delete-btn" data-id=${_id}>Delete</button> </td> 
+      <td> <button class="edit-btn" data-id=${_id}> Edit</button> </p> </td>
 
       </tr>`;
   });
