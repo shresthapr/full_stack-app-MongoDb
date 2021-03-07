@@ -105,7 +105,7 @@ searchBtn.onclick = function () {
 
 function remove(Id) {
   fetch("http://localhost:4000/remove/" + Id, {
-    method: "DELETE",
+    method: "GET",
   })
     .then((res) => res.json())
     .then((data) => {

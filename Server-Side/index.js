@@ -94,20 +94,6 @@ app.post("/insert", async (req, res) => {
 //   );
 // });
 
-// app.delete("/remove/:id", async (req, res) => {
-//   const { id } = req.params;
-//   // try {
-//   //   Todo.deleteOne({ _id: id });
-//   // } catch (e) {
-//   //   print(e);
-//   // }
-//   await todo_app_mdb
-//     .collection("todos")
-//     .deleteOne({ _id: `${id}` })
-//     .then((result) => res.json(result))
-//     .catch((err) => res.json(err));
-// });
-
 app.get("/remove/:id", async (req, res) => {
   const { id } = req.params;
   try {
