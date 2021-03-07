@@ -33,12 +33,10 @@ input {
 
 .delete-btn {
   background-color: red;
-  padding: 1px;
 }
 
 .edit-btn {
   background-color: blue;
-  padding: 1px;
 }
 
 table {

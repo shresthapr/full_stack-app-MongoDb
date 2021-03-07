@@ -55,12 +55,10 @@ function insertNew(data) {
       }
     }
   }
-  fetch("http://localhost:4000/getall")
-    .then((res) => res.json())
-    .then((abd) => loadHtmllist(abd));
+  view();
 }
 
-showBtn.onclick = function () {
+showBtn.onclick = function view() {
   fetch("http://localhost:4000/getall")
     .then((res) => res.json())
     .then((data) => loadHtmllist(data["abcd"]));
@@ -81,10 +79,11 @@ function loadHtmllist(data) {
     addhtml += `<tr>
       <td> ${Id}</td> 
       <td> ${Note} </td>
-      <td> ${Entry} </td>
+      <td> ${new Date(Entry).toLocaleString()} </td>
       <td> ${Status}</td>
-      <td> <button class="delete-btn" data-id=${Id}>Delete</button> </td>
-      <td> <button class="edit-btn" data-id=${Id}>Edit</button> </p> </td>
+      <td> <button class="delete-btn" data-id=${Id}>Delete</button> </td> 
+      <td> <button class="edit-btn" data-id=${Id}> Edit</button> </p> </td>
+
       </tr>`;
   });
   resultarea.innerHTML = addhtml;
@@ -113,6 +112,8 @@ function remove(Id) {
         location.reload();
       }
     });
+
+  view();
 }
 
 function editlist(id) {
@@ -140,4 +141,5 @@ updateBtn.onclick = function () {
         location.reload();
       }
     });
+  view();
 };
