@@ -66,6 +66,8 @@ app.get("/search/:id", async (req, res) => {
 });
 
 app.post("/insert", async (req, res) => {
+  const newitem = req.params;
+  console.log("this is newitem", newitem);
   const newtodo = new Todo({
     title: req.body.note,
     content: req.body.content,
@@ -74,44 +76,58 @@ app.post("/insert", async (req, res) => {
   res.send("Received Post");
 });
 
-app.post("/insert", async (req, res) => {
-  const data = req.body;
-  Todo.insertOne(
-    {
-      _id: data.id,
-      note: data.note,
-      entry: data.entry,
-      type: data.type,
-      status: data.status,
-    },
-    (err, todos) => {
-      if (err) console.log(err);
-      else res.json({ todos });
-    }
-  );
-});
-app.delete("/remove/:id", async (req, res) => {
-  const { id } = req.params;
+// app.post("/insert", async (req, res) => {
+//   const data = req.body;
 
-  const result = await todo_app_mdb
-    .collection("todos")
-    .deleteOne({ _id: `${id}` });
-  res.json(result);
-  console.log(result);
+//   Todo.insertOne(
+//     {
+//       _id: data.id,
+//       note: data.note,
+//       entry: data.entry,
+//       type: data.type,
+//       status: data.status,
+//     },
+//     (err, todos) => {
+//       if (err) console.log(err);
+//       else res.json({ todos });
+//     }
+//   );
+// });
+
+// app.delete("/remove/:id", async (req, res) => {
+//   const { id } = req.params;
+//   // try {
+//   //   Todo.deleteOne({ _id: id });
+//   // } catch (e) {
+//   //   print(e);
+//   // }
+//   await todo_app_mdb
+//     .collection("todos")
+//     .deleteOne({ _id: `${id}` })
+//     .then((result) => res.json(result))
+//     .catch((err) => res.json(err));
+// });
+
+app.get("/remove/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    Todo.findOneAndRemove({ _id: id }, function (err, member) {
+      if (!err && member) {
+        console.log("member successfully deleted");
+      } else {
+        console.log("error");
+      }
+      res.redirect("/getall");
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.patch("/update", async (req, res) => {
   const { id, note } = req.body;
   const result = await Todo.updateOne({});
 });
-
-// app.patch("/update", (req, res) => {
-//   const { id, note } = req.body;
-//   const result = db.updatelist(id, note);
-//   result
-//     .then((data) => res.json({ success: data }))
-//     .catch((err) => console.log(err));
-// });
 
 server.listen(port, host, () =>
   console.log(`server ${host} Listening to ${port}`)

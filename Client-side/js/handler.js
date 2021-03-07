@@ -22,8 +22,9 @@ addBtn.onclick = function () {
       headers: {
         "Content-type": "application/json",
       },
+      mode: "cors",
       method: "POST",
-      body: JSON.stringify({ Note: note }),
+      body: JSON.stringify({ note }),
     })
       .then((res) => res.json())
       .then((data) => insertNew(data["abcd"]));
@@ -31,7 +32,6 @@ addBtn.onclick = function () {
 };
 
 function insertNew(data) {
-  console.log("hello from the other side", data);
   const table = document.querySelector("tbody");
   const istable = table.querySelector(".no-data");
 
@@ -43,8 +43,8 @@ function insertNew(data) {
         data[key] = new Date(data[key]).toLocalString();
       }
       tableHtml += `<td>${data[key]}</td>`;
-      tableHtml += `<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
-      tableHtml += `<td><button class="edit-row-btn" data-id=${data.id}>Edit</td>`;
+      tableHtml += `<td><button class="delete-row-btn" data-id=${data._id}>Delete</td>`;
+      tableHtml += `<td><button class="edit-row-btn" data-id=${data._id}>Edit</td>`;
 
       tableHtml += "</tr>";
       if (isTableData) {
@@ -65,7 +65,6 @@ showBtn.onclick = function view() {
 };
 
 function loadHtmllist(data) {
-  console.log("This is the data received", data);
   const display = document.getElementById("display-onload");
   display.setAttribute("style", "display: block;");
 
@@ -114,8 +113,6 @@ function remove(Id) {
         location.reload();
       }
     });
-
-  view();
 }
 
 function editlist(id) {
